@@ -129,6 +129,31 @@ body {
     border-radius: 50% !important;
 }
 
+.profile-wrapper {
+    position: relative;
+    display: inline-block;
+}
+/* 創意 */
+.profile-overlay {
+    position: absolute;
+    inset: 0;  
+    
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.45);
+    color: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.profile-wrapper:hover .profile-overlay {
+    opacity: 1;
+}
+
 /* Sections */
 .section {
     padding: 80px 0;
