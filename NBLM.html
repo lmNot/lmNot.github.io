@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>老高與小茉 宇宙奧秘探索庫</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans TC"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            light: '#ffd700',
+                            DEFAULT: '#f59e0b',
+                            dark: '#d97706',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0f172a; /* Slate 900 */
+            color: #f8fafc; /* Slate 50 */
+            background-image: radial-gradient(circle at top right, #1e293b, transparent 40%), 
+                              radial-gradient(circle at bottom left, #1e293b, transparent 40%);
+            background-attachment: fixed;
+        }
+        
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
+        }
+
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;  
+            overflow: hidden;
+        }
+
+        /* Modal Animation */
+        #modal.active {
+            display: flex;
+            animation: fadeIn 0.2s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; backdrop-filter: blur(0px); }
+            to { opacity: 1; backdrop-filter: blur(5px); }
+        }
+        .modal-content {
+            transform: scale(0.95);
+            transition: transform 0.2s ease-out;
+        }
+        #modal.active .modal-content {
+            transform: scale(1);
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-40 glass-panel border-b-0 border-slate-700/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <i data-lucide="planet" class="w-8 h-8 text-brand"></i>
+                    <span class="font-black text-xl tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-brand-light to-brand-dark">
+                        五歲抬頭探索庫
+                    </span>
+                </div>
+                <nav class="hidden md:flex gap-6 text-sm font-medium text-slate-300">
+                    <a href="#home" class="hover:text-brand transition-colors">首頁</a>
+                    <a href="#library" class="hover:text-brand transition-colors">神明與宇宙庫</a>
+                    <a href="#faq" class="hover:text-brand transition-colors">未解之謎 FAQ</a>
+                </nav>
+                <button class="md:hidden text-slate-300 hover:text-white">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section & Search -->
+    <section id="home" class="relative pt-20 pb-16 md:pt-32 md:pb-24 px-4 overflow-hidden">
+        <div class="absolute inset-0 z-0 opacity-20 pointer-events-none" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%239C92AC\' fill-opacity=\'0.4\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+        <div class="max-w-3xl mx-auto text-center relative z-10">
+            <h1 class="text-4xl md:text-6xl font-black mb-6 leading-tight">
+                探索世界的<span class="text-brand">終極真相</span>
+            </h1>
+            <p class="text-lg md:text-xl text-slate-400 mb-10">
+                從宇宙邊源到量子微觀，從史前巨石到未來預言。彙整老高與小茉歷年精彩探討的未解之謎、神秘學與前沿科學知識。
+            </p>
+            
+            <!-- Search Box -->
+            <div class="relative max-w-2xl mx-auto">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i data-lucide="search" class="w-6 h-6 text-slate-400"></i>
+                </div>
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    class="block w-full pl-12 pr-4 py-4 rounded-full bg-slate-800/80 border border-slate-600 focus:border-brand focus:ring-2 focus:ring-brand/50 text-white placeholder-slate-400 transition-all outline-none text-lg shadow-xl" 
+                    placeholder="搜尋關鍵字：如「2025」、「外星人」、「虛擬世界」..."
+                >
+            </div>
+        </div>
+    </section>
+
+    <!-- Resource Library -->
+    <section id="library" class="py-12 px-4 flex-grow">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-center gap-2 mb-8">
+                <i data-lucide="library" class="w-6 h-6 text-brand"></i>
+                <h2 class="text-2xl font-bold">精選檔案庫</h2>
+            </div>
+            
+            <!-- Results Container -->
+            <div id="resultsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Cards will be injected here via JS -->
+            </div>
+            
+            <!-- No Results Message -->
+            <div id="noResults" class="hidden text-center py-16 text-slate-400">
+                <i data-lucide="telescope" class="w-16 h-16 mx-auto mb-4 opacity-50"></i>
+                <p class="text-xl">在這個維度找不到相關資料，請嘗試其他關鍵字。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-16 px-4 bg-slate-900/50 border-t border-slate-800">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">世界真相關鍵問答 (FAQ)</h2>
+                <p class="text-slate-400">你或許也曾經思考過這些問題...</p>
+            </div>
+            
+            <div class="space-y-4" id="faqContainer">
+                <!-- FAQ Items -->
+                <div class="glass-panel rounded-xl overflow-hidden">
+                    <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-slate-800/50 transition-colors">
+                        <span class="font-medium text-lg">2025年真的會發生大災難嗎？</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-brand transform transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-5 text-slate-300 leading-relaxed">
+                        根據《我看見了未來》漫畫家竜樹諒的預知夢，以及日本物理學家保江邦夫從不同消息來源獲得的資訊，2025年7月5日可能是一個關鍵節點。預測指出太平洋可能會發生巨大海嘯或地殼變動。此外，印度神童阿南德與多位靈媒也對2025年提出挑戰與重生的預言。
+                    </div>
+                </div>
+
+                <div class="glass-panel rounded-xl overflow-hidden">
+                    <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-slate-800/50 transition-colors">
+                        <span class="font-medium text-lg">我們的世界真的是虛擬的嗎？</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-brand transform transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-5 text-slate-300 leading-relaxed">
+                        「圈量子重力理論」提出了一種可能性：空間和時間不是連續的，而是由極小的「圈量子」組成，如同螢幕上的像素點。在這個理論下，物質的移動只是像素狀態的改變。這為「世界是虛擬實境」或「高維度顯示器」的假說提供了物理學層面的理論基礎。
+                    </div>
+                </div>
+
+                <div class="glass-panel rounded-xl overflow-hidden">
+                    <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-slate-800/50 transition-colors">
+                        <span class="font-medium text-lg">外星人來過地球嗎？</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-brand transform transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-5 text-slate-300 leading-relaxed">
+                        歷史上有許多可信度極高的第三、第四甚至第五類接觸事件。例如日本的「仁頃事件」中，目擊者被帶入飛碟並與外星人進行心靈感應；中國的「張祥前事件」更是講述了被帶往「果客星」的奇幻經歷。同時，古籍《山海經》中記載的奇珍異獸與地理，被部分學者懷疑是史前外星文明活動的記錄。
+                    </div>
+                </div>
+
+                <div class="glass-panel rounded-xl overflow-hidden">
+                    <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-slate-800/50 transition-colors">
+                        <span class="font-medium text-lg">AI 時代，哪些工作不會被取代？</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-brand transform transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-5 text-slate-300 leading-relaxed">
+                        隨著 DeepSeek 等大模型的崛起，AI 確實正在顛覆勞動市場。但有七類工作難以被取代：1. 涉及重大權力與責任（如法官、領袖）；2. 監管 AI 的工作；3. 個性化的一對一服務（如心理醫生）；4. 本身就是作品一部分的職業者（如藝術家、明星）；5. 提供高級情緒價值的工作；6. 反向提供情緒（做著會開心）的工作；7. 古老且具文化傳承的手藝。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 py-8 border-t border-slate-800 text-center text-sm text-slate-500">
+        <p class="mb-2">⚠️ 本網站為粉絲製作之知識彙整與實驗性質專案，內容取材自「老高與小茉 Mr & Mrs Gao」頻道。</p>
+        <p>&copy; 2026 Cosmic Mysteries Exploration Hub. All rights reserved.</p>
+    </footer>
+
+    <!-- Full Screen Modal -->
+    <div id="modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-900/80">
+        <div class="modal-content glass-panel w-full max-w-3xl max-h-[90vh] rounded-2xl flex flex-col overflow-hidden shadow-2xl border border-slate-600">
+            <!-- Modal Header -->
+            <div class="flex justify-between items-center p-6 border-b border-slate-700 bg-slate-800/50">
+                <h3 id="modalTitle" class="text-2xl font-bold text-white pr-4">Title</h3>
+                <button id="closeModal" class="text-slate-400 hover:text-white transition-colors p-2 rounded-full hover:bg-slate-700">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <!-- Modal Body -->
+            <div class="p-6 overflow-y-auto custom-scrollbar flex-grow bg-slate-900">
+                <div id="modalTags" class="flex flex-wrap gap-2 mb-4"></div>
+                <div id="modalContent" class="text-slate-300 leading-relaxed space-y-4 text-lg">
+                    <!-- Content injected via JS -->
+                </div>
+            </div>
+            <!-- Modal Footer -->
+            <div class="p-4 border-t border-slate-700 bg-slate-800/50 text-right">
+                <button id="closeModalBtn" class="px-6 py-2 bg-brand text-slate-900 font-bold rounded-lg hover:bg-brand-light transition-colors">
+                    關閉檔案
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Knowledge Base Data
+        const database = [
+            {
+                id: 1,
+                title: "【未解之謎】2025年7月5日大災難",
+                tags: ["未來預言", "災難", "都市傳說"],
+                summary: "日本知名物理學家保江邦夫，從NASA與政府高層獲得消息，預言2025年可能發生的災難，與《我看見了未來》漫畫不謀而合。",
+                content: "日本知名物理學家保江邦夫（曾提出保江方程式），透露從特殊情報管道（包括NASA相關人士）獲悉2025年7月5日可能面臨重大災難。<br><br>這與漫畫家竜樹諒在《我看見了未來》中記錄的預知夢（2025年7月太平洋海底爆發/海嘯）高度重合。保江猜測這可能是小行星撞擊，或是某種人為的災難。無論如何，這個日期成為了預言界高度關注的焦點。同時，多位靈媒和預言家也指出2025年將是充滿挑戰與重生的轉折點。"
+            },
+            {
+                id: 2,
+                title: "【社會科技】AI將取代哪些工作？",
+                tags: ["AI科技", "社會趨勢"],
+                summary: "在DeepSeek等AI技術爆發下，大量白領工作面臨裁員。究竟哪些職業能在AI時代倖存？",
+                content: "隨著AI技術的高速發展，科技公司開始大量裁員，主要對象為依賴電腦處理信息的白領階層。但有七類工作難以被取代：<br><br>1. <b>權力與責任相關</b>：如法官、企業老闆，人類不會將最終決策與責任交給AI。<br>2. <b>AI監管者</b>：防範AI失控或被惡意利用的人類專家。<br>3. <b>個性化一對一服務</b>：應對複雜現實場景（如高級維修、特殊照護）。<br>4. <b>藝術與明星</b>：創作者本人即是作品價值的核心。<br>5. <b>提供高級情緒價值</b>：如高級心理諮商。<br>6. <b>反向情緒工作</b>：人類純粹為了「享受過程」而做的事。<br>7. <b>文化傳承</b>：古老且具特殊文化意義的手藝。"
+            },
+            {
+                id: 3,
+                title: "【震撼科幻】我們活在顯示器中？圈量子重力理論",
+                tags: ["量子物理", "宇宙本質", "虛擬實境"],
+                summary: "萬有理論的熱門候選「圈量子重力理論」暗示，我們的宇宙可能只是由無數「圈量子」構成的立體顯示器。",
+                content: "為了統合相對論與量子力學，物理學界提出了「圈量子重力理論」。該理論認為，世界並非無限可分，其最小單位是極小的「圈量子」。<br><br>宇宙中沒有絕對的物質與連續的空間，一切都像是由這些「像素點（圈量子）」交織成的網路。物質的移動，實際上只是這邊的像素熄滅、那邊的像素亮起。如果這個理論成立，等於從物理學上印證了「世界是虛擬的」假說，我們可能生活在一個高維度存在所操控的 3D 顯示器之中。"
+            },
+            {
+                id: 4,
+                title: "【神學與哲學】與神對話",
+                tags: ["神學探討", "生命意義", "阿卡西紀錄"],
+                summary: "暢銷書《與神對話》揭示了神如何與人類交流，以及人類活在這個世界上的終極意義。",
+                content: "作家沃許在人生最低谷時，聽到了「神」的聲音。神告訴他，神其實24小時都在與所有人溝通，只是主要透過「情感、思想、經驗」，最少使用的反而是容易產生誤解的「語言」。<br><br>神表示，宇宙最初只有「一」，為了體驗和感知自己，神將自己分裂成無數碎片（即我們的靈魂）。我們來到世上，唯一的任務就是「感受」——無論好壞、悲喜、貧富，所有的體驗都在幫助宇宙了解自身。因此，生命的意義就在於努力且精彩地活著去體驗。"
+            },
+            {
+                id: 5,
+                title: "【外星接觸】張祥前事件與果客星",
+                tags: ["第三類接觸", "外星文明", "統一場論"],
+                summary: "安徽農民張祥前聲稱被外星人劫持到高度發達的「果客星」，並帶回了統一場論的知識。",
+                content: "1985年，中國農民張祥前遭遇了最高級別的第七類接觸事件。他聲稱被帶到一個名為「果客星」的星球。那裡的外星人身高約一米，透過心靈感應交流。<br><br>果客星是一個二級文明，擁有「全球運動網」提供無限能源與瞬間移動技術。他們甚至掌握了空間折疊與元素轉換（煉金術）。張祥前回到地球後，寫出了《統一場論》，用極其獨特的視角解釋了光速不變原理與空間本質，其內容之深奧讓人難以相信出自一位只有初中學歷的農民之手。"
+            },
+            {
+                id: 6,
+                title: "【人類迷思】尋找馬特與記憶重塑",
+                tags: ["心理學", "曼德拉效應", "都市傳說"],
+                summary: "Reddit上的離奇事件：全家人都記得「馬特叔叔」，卻發現他從未存在過。我們的記憶可靠嗎？",
+                content: "一名網友分享家庭聚會時，大家提起「馬特叔叔」，卻發現照片、聯絡資訊全都不見了，彷彿他被宇宙抹除。更詭異的是，家人們對馬特的記憶細節開始出現分歧。<br><br>這引發了關於「集體記憶錯亂（曼德拉效應）」的探討。心理學實驗（如MIT的老鼠記憶實驗）已證明，記憶並非錄影，而是大腦在提取時的「重構」，極易被暗示、情緒甚至他人傳染所竄改。這也可能涉及平行宇宙的干擾，或被所謂的「宇宙審查官」強制抹除。"
+            },
+            {
+                id: 7,
+                title: "【未來訪客】時間機器與宿命",
+                tags: ["時間旅行", "平行宇宙", "未來人"],
+                summary: "2008年出現在日本論壇的未來人，揭露時間機器的反物質原理，以及人類集體潛意識的真相。",
+                content: "一位自稱接觸過未來人的網友表示，未來的時間機器是利用「反物質」運作的。時間並非全宇宙統一，每個人都有自己的時間線。時間旅行必須藉由「雙方互相認識且依然存活」的人作為錨點進行穿越。<br><br>未來人還透露，雖然未來有無限個平行宇宙（我們的意識可以看見所有可能的未來，這就是『既視感』的來源），但我們當下對物質世界做出的選擇會凝固成「過去」，進而限縮未來的走向。同時，人類作為一個宏觀生命體，其「集體潛意識」為每個人安排了無法逃避的「宿命」。"
+            },
+            {
+                id: 8,
+                title: "【宇宙探索】地外生命的最強證據",
+                tags: ["NASA", "火星", "超級地球"],
+                summary: "毅力號火星車與詹姆斯·韋伯望遠鏡近期發現了令人振奮的生命痕跡，我們或許並不孤單。",
+                content: "NASA 的毅力號火星車在「耶澤羅撞擊坑」發現了一塊帶有「豹紋」特徵的岩石，這在地球上通常是微生物活動殘留的化學痕跡（生命探測置信度達到三等）。<br><br>此外，在距離地球124光年的超級地球 K2-18b 上的大氣中，科學家不僅發現了水蒸氣、甲烷、二氧化碳，甚至檢測到了「二甲基硫醚」——這在地球上幾乎只由海洋浮游生物產生。這些發現強烈暗示著，宇宙中可能充滿了生命。"
+            },
+            {
+                id: 9,
+                title: "【神話解密】山海經：6500萬年前的地球日誌",
+                tags: ["上古奇書", "史前文明", "山海經"],
+                summary: "《山海經》可能不是神話想像，而是記載了恐龍滅絕時期，外星人在地球上的真實活動？",
+                content: "《山海經》是中國上古三大奇書之一，記載了各種奇珍異獸與地理方位。由於內容過於奇幻，古人多認為是神話。<br><br>但有物理學家提出大膽假說：若將地圖推演回6500萬年前（恐龍剛滅絕時），《山海經》中的地理描述（如西海邊的雀兒山向東的距離）竟與當時的板塊驚人吻合！書中記載的各種神祇和怪物，極可能是當時來到地球開採資源的外星人及其高科技裝備（如潛艇、飛行器），被遠古人類以神話的方式記錄了下來。"
+            }
+        ];
+
+        // DOM Elements
+        const resultsContainer = document.getElementById('resultsContainer');
+        const searchInput = document.getElementById('searchInput');
+        const noResults = document.getElementById('noResults');
+        const modal = document.getElementById('modal');
+        const closeModal = document.getElementById('closeModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalTags = document.getElementById('modalTags');
+        const modalContent = document.getElementById('modalContent');
+        const faqBtns = document.querySelectorAll('.faq-btn');
+
+        // Render Cards
+        function renderCards(data) {
+            resultsContainer.innerHTML = '';
+            
+            if (data.length === 0) {
+                noResults.classList.remove('hidden');
+                return;
+            }
+            
+            noResults.classList.add('hidden');
+            
+            data.forEach((item, index) => {
+                // Staggered animation delay
+                const delay = index * 50;
+                
+                const card = document.createElement('div');
+                card.className = `glass-panel rounded-2xl p-6 cursor-pointer hover:border-brand/50 hover:shadow-[0_0_20px_rgba(245,158,11,0.2)] transition-all duration-300 transform hover:-translate-y-1 group flex flex-col h-full opacity-0 animate-[fadeIn_0.5s_ease-out_forwards]`;
+                card.style.animationDelay = `${delay}ms`;
+                
+                // Tags HTML
+                const tagsHtml = item.tags.map(tag => 
+                    `<span class="px-2 py-1 bg-slate-800 text-brand-light text-xs font-semibold rounded-md border border-slate-700/50">${tag}</span>`
+                ).join('');
+
+                card.innerHTML = `
+                    <div class="mb-4">
+                        ${tagsHtml}
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-white group-hover:text-brand transition-colors line-clamp-2">${item.title}</h3>
+                    <p class="text-slate-400 text-sm mb-6 flex-grow line-clamp-3">${item.summary}</p>
+                    <div class="mt-auto flex items-center text-brand text-sm font-bold group-hover:translate-x-2 transition-transform duration-300">
+                        <span>展開解密</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+                    </div>
+                `;
+                
+                card.addEventListener('click', () => openModal(item));
+                resultsContainer.appendChild(card);
+            });
+            
+            // Re-initialize lucide icons for newly added elements
+            lucide.createIcons();
+        }
+
+        // Search Logic
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            const filteredData = database.filter(item => 
+                item.title.toLowerCase().includes(query) || 
+                item.summary.toLowerCase().includes(query) ||
+                item.tags.some(tag => tag.toLowerCase().includes(query))
+            );
+            renderCards(filteredData);
+        });
+
+        // FAQ Logic
+        faqBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const content = btn.nextElementSibling;
+                const icon = btn.querySelector('i');
+                
+                // Close others
+                document.querySelectorAll('.faq-content').forEach(c => {
+                    if (c !== content && !c.classList.contains('hidden')) {
+                        c.classList.add('hidden');
+                        c.previousElementSibling.querySelector('i').style.transform = 'rotate(0deg)';
+                    }
+                });
+
+                // Toggle current
+                if (content.classList.contains('hidden')) {
+                    content.classList.remove('hidden');
+                    icon.style.transform = 'rotate(180deg)';
+                } else {
+                    content.classList.add('hidden');
+                    icon.style.transform = 'rotate(0deg)';
+                }
+            });
+        });
+
+        // Modal Logic
+        function openModal(item) {
+            modalTitle.textContent = item.title;
+            modalContent.innerHTML = item.content;
+            modalTags.innerHTML = item.tags.map(tag => 
+                `<span class="px-3 py-1 bg-brand/10 text-brand-light text-sm font-semibold rounded border border-brand/20">${tag}</span>`
+            ).join('');
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function hideModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        closeModal.addEventListener('click', hideModal);
+        closeModalBtn.addEventListener('click', hideModal);
+        
+        // Close modal on outside click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                hideModal();
+            }
+        });
+
+        // Initial Render
+        renderCards(database);
+
+    </script>
+</body>
+</html>
